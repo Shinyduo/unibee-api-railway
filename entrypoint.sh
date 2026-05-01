@@ -26,15 +26,5 @@ logger:
   stdout: true
 CONF
 
-TABLE_CHECK=$(mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASSWORD}" -N -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='${DB_DATABASE}' AND table_name='merchant'" 2>/dev/null || echo "0")
-
-if [ "$TABLE_CHECK" = "0" ]; then
-  echo "Importing UniBee schema..."
-  mysql -h "${DB_HOST}" -P "${DB_PORT}" -u "${DB_USER}" -p"${DB_PASSWORD}" "${DB_DATABASE}" < /app/structure.sql
-  echo "Schema imported successfully."
-else
-  echo "Schema already exists, skipping import."
-fi
-
 cd /app
 exec ./main
