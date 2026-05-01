@@ -27,4 +27,8 @@ logger:
 CONF
 
 cd /app
-exec ./main
+while true; do
+  ./main && break
+  echo "App exited, retrying in 10s (waiting for DB schema)..."
+  sleep 10
+done
